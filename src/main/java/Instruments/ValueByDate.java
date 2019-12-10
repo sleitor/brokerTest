@@ -18,6 +18,6 @@ public class ValueByDate {
 
     @Override
     public String toString() {
-        return "{ date: " + getDate() + ", value: " + getValue() + " } ";
+        return "{ date: " + getDate() + ", value: " + getValue() + " }";
     }
 }

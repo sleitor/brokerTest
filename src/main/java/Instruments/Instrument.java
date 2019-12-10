@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-import static utils.IsWeekEnd.IsWeekEndCheck;
+import static utils.DateChecker.isWeekEndCheck;
 
 public abstract class Instrument {
     @Getter
@@ -18,8 +18,8 @@ public abstract class Instrument {
         this.NAME = NAME;
     }
 
-    protected boolean isAllowedDate(LocalDate date) {
-        return !IsWeekEndCheck(date.getDayOfWeek());
+    protected static boolean isAllowedDate(LocalDate date) {
+        return !isWeekEndCheck(date.getDayOfWeek());
     }
 
     public abstract void calculate(double value, LocalDate date);

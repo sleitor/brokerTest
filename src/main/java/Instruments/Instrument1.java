@@ -22,7 +22,7 @@ public class Instrument1 extends Instrument {
 
     @Override
     public String toString() {
-        return getNAME() + " : " + getResult() + " matched count: " + getCount();
+        return super.toString() + " matched count: " + getCount();
     }
 
 }

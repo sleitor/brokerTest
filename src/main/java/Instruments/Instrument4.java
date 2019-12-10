@@ -2,8 +2,10 @@ package Instruments;
 
 import java.time.LocalDate;
 
+import static utils.DoubleChecker.invalidNumber;
+
 public class Instrument4 extends Instrument {
-    private static ValueByDate[] lastValueByDate;
+    private ValueByDate[] lastValueByDate;
     private int minDateIndex;
 
     public Instrument4(String NAME) {
@@ -20,6 +22,8 @@ public class Instrument4 extends Instrument {
 
     @Override
     public void calculate(double value, LocalDate date) {
+        if (invalidNumber(value) || !isAllowedDate(date)) return;
+
         LocalDate minDate = LocalDate.MAX;
         double sum = 0;
         for (int i = 0, lastValueByDateLength = lastValueByDate.length; i < lastValueByDateLength; i++) {
@@ -43,8 +47,8 @@ public class Instrument4 extends Instrument {
     public String toString() {
         StringBuilder str = new StringBuilder();
         for (ValueByDate valueByDate : lastValueByDate) {
-            if (valueByDate.getDate().getYear() > 0) str.append(valueByDate).append(" ");
+            if (valueByDate.getDate().getYear() > 0) str.append(" ").append(valueByDate);
         }
-        return super.toString() + " " + str;
+        return super.toString() + str;
     }
 }

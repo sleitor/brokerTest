@@ -2,6 +2,8 @@ package Instruments;
 
 import java.time.LocalDate;
 
+import static utils.DoubleChecker.invalidNumber;
+
 public class Instrument3 extends Instrument {
     public Instrument3(String NAME) {
         super(NAME);
@@ -10,6 +12,8 @@ public class Instrument3 extends Instrument {
 
     @Override
     public void calculate(double value, LocalDate date) {
-        if (Double.isNaN(getResult()) || getResult() > value) setResult(value);
+        if (invalidNumber(value) || !isAllowedDate(date)) return;
+        double result = getResult();
+        if (Double.isNaN(result) || result > value) setResult(value);
     }
 }
