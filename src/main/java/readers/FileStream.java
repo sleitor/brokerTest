@@ -13,6 +13,8 @@ public class FileStream implements AbstractStream {
     private Stream<String> resource;
 
     public FileStream(String path) throws IOException {
-        resource = Files.lines(Paths.get(path == null ? "Financial_instruments_input Инструменты.txt" : path), StandardCharsets.UTF_8);
+        resource = Files
+                .lines(Paths.get(path == null ? "Financial_instruments_input Инструменты.txt" : path), StandardCharsets.UTF_8)
+                .parallel();
     }
 }

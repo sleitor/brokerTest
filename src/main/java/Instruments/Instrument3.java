@@ -13,7 +13,9 @@ public class Instrument3 extends Instrument {
     @Override
     public void calculate(double value, LocalDate date) {
         if (invalidNumber(value) || !isAllowedDate(date)) return;
-        double result = getResult();
-        if (Double.isNaN(result) || result > value) setResult(value);
+        calc(() -> {
+            double result = getResult();
+            if (Double.isNaN(result) || result > value) setResult(value);
+        });
     }
 }

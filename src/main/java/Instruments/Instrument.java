@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import static utils.DateChecker.isWeekEndCheck;
 
 public abstract class Instrument {
+    private final Object lock = new Object();
+
     @Getter
     private final String NAME;
     @Getter
@@ -23,6 +25,12 @@ public abstract class Instrument {
     }
 
     public abstract void calculate(double value, LocalDate date);
+
+    void calc(Runnable f) {
+        synchronized (lock) {
+            f.run();
+        }
+    }
 
     public String toString() {
         return getNAME() + " : " + getResult();

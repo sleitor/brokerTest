@@ -24,23 +24,26 @@ public class Instrument4 extends Instrument {
     public void calculate(double value, LocalDate date) {
         if (invalidNumber(value) || !isAllowedDate(date)) return;
 
-        LocalDate minDate = LocalDate.MAX;
-        double sum = 0;
-        for (int i = 0, lastValueByDateLength = lastValueByDate.length; i < lastValueByDateLength; i++) {
-            if (minDate.isAfter(lastValueByDate[i].getDate())) {
-                minDate = lastValueByDate[i].getDate();
-                minDateIndex = i;
+        calc(() -> {
+            LocalDate minDate = LocalDate.MAX;
+            double sum = 0;
+
+            for (int i = 0, lastValueByDateLength = lastValueByDate.length; i < lastValueByDateLength; i++) {
+                if (minDate.isAfter(lastValueByDate[i].getDate())) {
+                    minDate = lastValueByDate[i].getDate();
+                    minDateIndex = i;
+                }
+                sum += lastValueByDate[i].getValue();
             }
-            sum += lastValueByDate[i].getValue();
-        }
 
-        if (date.isAfter(lastValueByDate[minDateIndex].getDate())) {
-            sum = sum + (value - lastValueByDate[minDateIndex].getValue());
-            lastValueByDate[minDateIndex].setDate(date);
-            lastValueByDate[minDateIndex].setValue(value);
-        }
+            if (date.isAfter(lastValueByDate[minDateIndex].getDate())) {
+                sum = sum + (value - lastValueByDate[minDateIndex].getValue());
+                lastValueByDate[minDateIndex].setDate(date);
+                lastValueByDate[minDateIndex].setValue(value);
+            }
 
-        setResult(sum);
+            setResult(sum);
+        });
     }
 
     @Override

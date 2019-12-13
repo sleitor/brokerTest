@@ -15,8 +15,10 @@ public class Instrument1 extends Instrument {
     @Override
     public void calculate(double value, LocalDate date) {
         if (isAllowedDate(date)) {
-            setResult((getResult() * count + value) / (count + 1));
-            count++;
+            calc(() -> {
+                setResult((getResult() * count + value) / (count + 1));
+                count++;
+            });
         }
     }
 
