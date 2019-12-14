@@ -17,6 +17,11 @@ public class DateChecker {
     @Getter
     private LocalDate currentDate;
 
+    public DateChecker() {
+        DF = DateTimeFormatter.ofPattern("d-MMM-yyyy", Locale.ENGLISH);
+        setDate();
+    }
+
     public DateChecker(String dateSting) {
         this(dateSting, DateTimeFormatter.ofPattern("d-MMM-yyyy", Locale.ENGLISH));
     }
@@ -30,28 +35,29 @@ public class DateChecker {
         return day.equals(DayOfWeek.SATURDAY) || day.equals(DayOfWeek.SUNDAY);
     }
 
+    public void setDate() {
+        currentDate = LocalDate.now();
+        System.out.println("Установлена дата : " + currentDate.format(DF));
+    }
+
     public void setDate(String localDate) {
-        if (localDate == null) {
-            currentDate = LocalDate.now();
-        } else {
-            try {
-                System.out.println("Попытка установки даты: " + localDate);
-                currentDate = LocalDate.parse(localDate, DF);
-            } catch (DateTimeParseException e) {
-                System.out.println("Ошибка установки даты. Повторите ввод.");
-                while (currentDate == null) {
-                    try {
-                        System.out.print("Введите интересующую дату [ по умолчанию: " + LocalDate.now().format(DF) + " ]:");
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                        localDate = reader.readLine();
-                        if (localDate.equals("")) currentDate = LocalDate.now();
-                        else currentDate = LocalDate.parse(localDate, DF);
-                    } catch (DateTimeParseException ex) {
-                        System.out.println("Ошибка установки даты. Повторите ввод.");
-                    } catch (IOException ex) {
-                        System.out.println("Неудачное чтение ввода с клавиатуры. Дальнейшая работа программы невозможна. Извините. Передайте желаемую дату первым параметром при запуске программы, или запустите без параметров для установки сегодняшней даты.");
-                        System.exit(1);
-                    }
+        try {
+            System.out.println("Попытка установки даты: " + localDate);
+            currentDate = LocalDate.parse(localDate, DF);
+        } catch (DateTimeParseException e) {
+            System.out.println("Ошибка установки даты. Повторите ввод.");
+            while (currentDate == null) {
+                try {
+                    System.out.print("Введите интересующую дату [ по умолчанию: " + LocalDate.now().format(DF) + " ]:");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                    localDate = reader.readLine();
+                    if (localDate.equals("")) currentDate = LocalDate.now();
+                    else currentDate = LocalDate.parse(localDate, DF);
+                } catch (DateTimeParseException ex) {
+                    System.out.println("Ошибка установки даты. Повторите ввод.");
+                } catch (IOException ex) {
+                    System.out.println("Неудачное чтение ввода с клавиатуры. Дальнейшая работа программы невозможна. Извините. Передайте желаемую дату первым параметром при запуске программы, или запустите без параметров для установки сегодняшней даты.");
+                    System.exit(1);
                 }
             }
         }
@@ -68,5 +74,9 @@ public class DateChecker {
 
     public boolean isFuture(LocalDate date) {
         return date.isAfter(currentDate);
+    }
+
+    public boolean isInvalidDate(LocalDate date) {
+        return isFuture(date) || isWeekEndCheck(date.getDayOfWeek());
     }
 }

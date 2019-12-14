@@ -3,9 +3,7 @@ package Instruments;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
-import static utils.DateChecker.isWeekEndCheck;
+import static utils.DoubleChecker.invalidNumber;
 
 public abstract class Instrument {
     private final Object lock = new Object();
@@ -20,13 +18,13 @@ public abstract class Instrument {
         this.NAME = NAME;
     }
 
-    protected static boolean isAllowedDate(LocalDate date) {
-        return !isWeekEndCheck(date.getDayOfWeek());
+    public static boolean validateNumber(ValueByDate valueByDate) {
+        return invalidNumber(valueByDate.getValue());
     }
 
-    public abstract void calculate(double value, LocalDate date);
+    public abstract void calculate(ValueByDate valueByDate);
 
-    void calc(Runnable f) {
+    void synchronizedRun(Runnable f) {
         synchronized (lock) {
             f.run();
         }

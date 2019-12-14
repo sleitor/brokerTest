@@ -16,6 +16,10 @@ public class ValueByDate {
     @Setter
     private double value;
 
+    @Getter
+    @Setter
+    private String name;
+
     @Override
     public String toString() {
         return "{ date: " + getDate() + ", value: " + getValue() + " }";

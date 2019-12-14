@@ -2,8 +2,6 @@ package Instruments;
 
 import lombok.Getter;
 
-import java.time.LocalDate;
-
 public class Instrument1 extends Instrument {
     @Getter
     private long count;
@@ -13,13 +11,12 @@ public class Instrument1 extends Instrument {
     }
 
     @Override
-    public void calculate(double value, LocalDate date) {
-        if (isAllowedDate(date)) {
-            calc(() -> {
-                setResult((getResult() * count + value) / (count + 1));
-                count++;
-            });
-        }
+    public void calculate(ValueByDate valueByDate) {
+        if (validateNumber(valueByDate)) return;
+        synchronizedRun(() -> {
+            setResult((getResult() * count + valueByDate.getValue()) / (count + 1));
+            count++;
+        });
     }
 
     @Override

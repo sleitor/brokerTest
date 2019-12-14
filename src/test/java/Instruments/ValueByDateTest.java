@@ -13,7 +13,7 @@ public class ValueByDateTest {
 
     @Before
     public void setUp() {
-        valueByDate = new ValueByDate(LocalDate.of(2010, 10, 12), 10.2);
+        valueByDate = new ValueByDate(LocalDate.of(2010, 10, 12), 10.2, "");
     }
 
     @Test

@@ -2,8 +2,6 @@ package Instruments;
 
 import java.time.LocalDate;
 
-import static utils.DoubleChecker.invalidNumber;
-
 public class Instrument4 extends Instrument {
     private ValueByDate[] lastValueByDate;
     private int minDateIndex;
@@ -16,15 +14,15 @@ public class Instrument4 extends Instrument {
         super(NAME);
         lastValueByDate = new ValueByDate[capacity];
         for (int i = 0, lastValueByDateLength = lastValueByDate.length; i < lastValueByDateLength; i++) {
-            lastValueByDate[i] = new ValueByDate(LocalDate.MIN, 0);
+            lastValueByDate[i] = new ValueByDate(LocalDate.MIN, 0, "");
         }
     }
 
     @Override
-    public void calculate(double value, LocalDate date) {
-        if (invalidNumber(value) || !isAllowedDate(date)) return;
+    public void calculate(ValueByDate valueByDate) {
+        if (validateNumber(valueByDate)) return;
 
-        calc(() -> {
+        synchronizedRun(() -> {
             LocalDate minDate = LocalDate.MAX;
             double sum = 0;
 
@@ -36,10 +34,10 @@ public class Instrument4 extends Instrument {
                 sum += lastValueByDate[i].getValue();
             }
 
-            if (date.isAfter(lastValueByDate[minDateIndex].getDate())) {
-                sum = sum + (value - lastValueByDate[minDateIndex].getValue());
-                lastValueByDate[minDateIndex].setDate(date);
-                lastValueByDate[minDateIndex].setValue(value);
+            if (valueByDate.getDate().isAfter(lastValueByDate[minDateIndex].getDate())) {
+                sum = sum + (valueByDate.getValue()) - lastValueByDate[minDateIndex].getValue();
+                lastValueByDate[minDateIndex].setDate(valueByDate.getDate());
+                lastValueByDate[minDateIndex].setValue(valueByDate.getValue());
             }
 
             setResult(sum);

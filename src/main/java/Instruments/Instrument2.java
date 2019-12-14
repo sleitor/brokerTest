@@ -1,6 +1,5 @@
 package Instruments;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
 
 public class Instrument2 extends Instrument1 {
@@ -12,9 +11,9 @@ public class Instrument2 extends Instrument1 {
     }
 
     @Override
-    public void calculate(double value, LocalDate date) {
-        if (date.getMonth().equals(period.getMonth()) && date.getYear() == period.getYear()) {
-            super.calculate(value, date);
+    public void calculate(ValueByDate valueByDate) {
+        if (valueByDate.getDate().getMonth().equals(period.getMonth()) && valueByDate.getDate().getYear() == period.getYear()) {
+            super.calculate(valueByDate);
         }
     }
 }
