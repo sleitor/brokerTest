@@ -1,6 +1,9 @@
 package test.broker;
 
-import Instruments.*;
+import Instruments.Instrument;
+import Instruments.Instrument1;
+import Instruments.Instrument2;
+import Instruments.Instrument4;
 import consumers.AbstractConsumer;
 import consumers.ConsoleOut;
 import readers.FileStream;
@@ -27,8 +30,10 @@ public class Main {
 //=====================================================================================================================
         String path = args.length == 2 ? args[1] : null;
 
-        try (Stream<String> strings = new FileStream(path).getResource()) {
-            strings.forEach(Main::processing);
+        for (int i = 0; i < 1_000; i++) {
+            try (Stream<String> strings = new FileStream(path).getResource()) {
+                strings.forEach(Main::processing);
+            }
         }
 
         LinkedList<String> messages = new LinkedList<>();
@@ -45,7 +50,7 @@ public class Main {
     private static void initializeInstruments() {
         instrumentHashMap.put("INSTRUMENT1", new Instrument1("INSTRUMENT1"));
         instrumentHashMap.put("INSTRUMENT2", new Instrument2("INSTRUMENT2", 2014, 11));
-        instrumentHashMap.put("INSTRUMENT3", new Instrument3("INSTRUMENT3"));
+//        instrumentHashMap.put("INSTRUMENT3", new Instrument3("INSTRUMENT3"));
         instrumentHashMap.put("DEFAULT", new Instrument4("INSTRUMENT4"));
     }
 
