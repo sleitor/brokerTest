@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.stream.Stream;
 
 public class Main {
     private static final HashMap<String, Instrument> instrumentHashMap = new HashMap<>();
@@ -26,7 +27,9 @@ public class Main {
 //=====================================================================================================================
         String path = args.length == 2 ? args[1] : null;
 
-        new FileStream(path).getResource().forEach(Main::processing);
+        try (Stream<String> strings = new FileStream(path).getResource()) {
+            strings.forEach(Main::processing);
+        }
 
         LinkedList<String> messages = new LinkedList<>();
 
